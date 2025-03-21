@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Chat</title>
+</head>
+<body>
+    <h2>Ask me anything about upcoming events</h2>
+    <input type="text" id="username" placeholder="Enter your username" required size="32">
+    <br><br>
+    <textarea id="chat" rows="20" cols="100" readonly></textarea>
+    <br><br>
+    <input type="text" id="message" placeholder="Type a message" required size="32">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        let socket;
+        function connect() {
+            document.getElementById("chat").value = ""
+            const username = document.getElementById("username").value;
+            if (!username) {
+                alert("Please enter a username");
+                return;
+            }
+            socket = new WebSocket("ws://" + location.host + "/chat/" + username);
+            socket.onmessage = function(event) {
+                var textarea = document.getElementById("chat")
+                textarea.value += event.data + "\n";
+                textarea.scrollTop = textarea.scrollHeight;
+            };
+        }
+        
+        function sendMessage() {
+            const message = document.getElementById("message").value;
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(message);
+                document.getElementById("message").value = "";
+            } else {
+                alert("Not connected");
+            }
+        }
+
+        function init() {
+            document.getElementById("chat").value = "";
+        }
+
+        window.onload = init;
+    </script>
+    <br><br>
+    <button onclick="connect()">Connect</button>
+</body>
+</html>
+
