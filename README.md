@@ -77,6 +77,9 @@ Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 
+
+## Sample event requests
+
 http://localhost:8080/events/query/Jakie%20wydarzenie%20o%20muzyce%20odb%C4%99dzie%20si%C4%99%20w%20Poznaniu%20w%20pa%C5%BAdzierniku%202025
 
 http://localhost:8080/events/query/Jakie%20wydarzenie%20o%20muzyce%20odb%C4%99dzie%20si%C4%99%20w%20Poznaniu%20w%20dniu%2018%20pa%C5%BAdziernika%202025
