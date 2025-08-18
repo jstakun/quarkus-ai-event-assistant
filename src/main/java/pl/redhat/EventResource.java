@@ -6,6 +6,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
+import io.smallrye.mutiny.Multi;
+
 @Path("/events")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,9 +36,9 @@ public class EventResource {
     @GET
     @Path("/query/{question}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response queryAIEvents(String question) {
-        final String response = eventAssistant.assistUser(question);
-        return Response.ok(response).build();
+    public Multi<String> queryAIEvents(String question) {
+        final Multi<String> response = eventAssistant.assistUser(question);
+        return response;
     }
 }
 

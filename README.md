@@ -102,8 +102,6 @@ http://localhost:8080/events/query/Jakie%20wydarzenie%20biznesowe%20odb%C4%99dzi
 
 http://localhost:8080/events/query/Jakie%20wydarzenie%20technologiczne%20odb%C4%99dzie%20si%C4%99%20w%20Krakowie
 
-http://localhost:8080/events/query/Jaka%20konferencja%20technologiczna%20odb%C4%99dzie%20si%C4%99%20w%20Krakowie
-
 http://localhost:8080/events/query/Jakie%20wydarzenie%20sportowe%20b%C4%99dzie%20si%C4%99%20odbywa%C4%87%20w%20Gda%C5%84sku
 
 

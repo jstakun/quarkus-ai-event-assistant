@@ -2,6 +2,7 @@ package pl.redhat;
 
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
+import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
 import pl.redhat.geo.GeoCodingRestService;
 import dev.langchain4j.service.SystemMessage;
@@ -27,5 +28,5 @@ public interface EventAssistant {
         {message}
             """)
     @ToolBox({EventService.class, GeoCodingRestService.class})
-    public String assistUser(String message);
+    public Multi<String> assistUser(String message);
 }
