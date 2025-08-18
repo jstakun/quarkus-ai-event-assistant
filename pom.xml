@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.mvnpm</groupId>
             <artifactId>lit</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.mvnpm.at.mvnpm</groupId>
             <artifactId>vaadin-webcomponents</artifactId>
-            <version>24.3.10</version>
+            <version>24.3.13</version>
             <scope>provided</scope>
         </dependency>
         <!-- test -->
