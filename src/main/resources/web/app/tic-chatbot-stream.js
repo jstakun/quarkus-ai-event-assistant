@@ -11,7 +11,6 @@ import '@vaadin/upload';
 import '@vaadin/message-input';
 import '@vaadin/message-list';
 
-// Define your translations
 const i18n = {
     'en': {
         'noResponse': 'No response from model. Please try again!'
@@ -25,6 +24,33 @@ const i18n = {
     'pl': {
         'noResponse': 'Przykro mi, ale nie dostałem żadnej odpowiedzi od modelu. Spróbuj ponownie!'
     },    
+};
+
+const componentI18n = {
+  'en': {
+    messageInput: {
+      send: 'Send',
+      message: 'Message',
+    },
+  },
+  'es': {
+    messageInput: {
+      send: 'Enviar',
+      message: 'Mensaje',
+    },
+  },
+  'fr': {
+    messageInput: {
+      send: 'Envoyer',
+      message: 'Message',
+    },
+  },
+  'pl': {
+    messageInput: {
+      send: 'Wyślij',
+      message: 'Wiadomość',
+    },
+  }
 };
 
 export class TicChatbotStream extends LitElement {
@@ -126,11 +152,17 @@ export class TicChatbotStream extends LitElement {
     }
 
     _renderChat() {
+        // Get the translated object for vaadin-message-input
+        const messageInputI18n = this._getComponentTranslation('messageInput');
+
         return html`
             <div class="chat">
                 <vaadin-message-list .items="${this._chatItems}"></vaadin-message-list>
                 <vaadin-progress-bar class="${this._progressBarClass}" indeterminate></vaadin-progress-bar>
-                <vaadin-message-input @submit="${this._handleSendChat}"></vaadin-message-input>
+                <vaadin-message-input
+                    .i18n="${messageInputI18n}"
+                    @submit="${this._handleSendChat}">
+                </vaadin-message-input>
             </div>`;
     }
 
@@ -141,6 +173,11 @@ export class TicChatbotStream extends LitElement {
 
     _getTranslation(key) {
         return i18n[this.locale]?.[key] || i18n['en'][key];
+    }
+    
+    // New method for component translations
+    _getComponentTranslation(key) {
+        return componentI18n[this.locale]?.[key] || componentI18n['en'][key];
     }
 
     _hideProgressBar() {
