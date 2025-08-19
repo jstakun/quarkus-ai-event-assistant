@@ -11,6 +11,22 @@ import '@vaadin/upload';
 import '@vaadin/message-input';
 import '@vaadin/message-list';
 
+// Define your translations
+const i18n = {
+    'en': {
+        'noResponse': 'No response from model. Please try again!'
+    },
+    'es': {
+        'noResponse': 'Sin respuesta del modelo'
+    },
+    'fr': {
+        'noResponse': 'Aucune réponse du modèle'
+    },
+    'pl': {
+        'noResponse': 'Przykro mi, ale nie dostałem żadnej odpowiedzi od modelu. Spróbuj ponownie!'
+    },    
+};
+
 export class TicChatbotStream extends LitElement {
     static styles = css`
         :host {
@@ -44,7 +60,8 @@ export class TicChatbotStream extends LitElement {
         this._chatItems = [];
         this._progressBarClass = "hidden";
         this.ws = null;
-        this.timeoutId = null; // Add a property to hold the timeout ID
+        this.timeoutId = null;
+        this.locale = this._getLocale();
     }
 
     connectedCallback() {
@@ -62,9 +79,7 @@ export class TicChatbotStream extends LitElement {
         this.ws.addEventListener("message", (event) => {
             const data = event.data;
 
-            // Clear the timeout when a message is received
             this._clearTimeout();
-
             this._hideProgressBar();
 
             if (data === "[DONE]") {
@@ -74,19 +89,16 @@ export class TicChatbotStream extends LitElement {
 
             streamingText += data;
 
-            // Replace the last item with updated text
             const updatedItems = [...this._chatItems];
             if (
                 updatedItems.length > 0 &&
                 updatedItems[updatedItems.length - 1].userName === "A007"
             )  {
-                // Update existing streaming message
                 updatedItems[updatedItems.length - 1] = {
                     ...updatedItems[updatedItems.length - 1],
                     text: streamingText
                 };
             } else {
-                // Add a new streaming message
                 updatedItems.push({
                     text: streamingText,
                     userName: "A007",
@@ -94,14 +106,14 @@ export class TicChatbotStream extends LitElement {
                 });
             }
 
-            this._chatItems = updatedItems; // Triggers re-render
+            this._chatItems = updatedItems;
         });
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         console.log("Received disconnect callback");
-        this._clearTimeout(); // Clear timeout on disconnect
+        this._clearTimeout();
     }
 
     render() {
@@ -122,22 +134,13 @@ export class TicChatbotStream extends LitElement {
             </div>`;
     }
 
-    _addBotMessage(message) {
-        this._addMessage(message, "AI", 3);
+    _getLocale() {
+        const lang = navigator.language || 'en';
+        return lang.split('-')[0];
     }
 
-    _addUserMessage(message) {
-        this._addMessage(message, "Me", 1);
-    }
-
-    _addStyledMessage(message, user, colorIndex, className) {
-        let newItem = this._createNewItem(message, user, colorIndex);
-        newItem.className = className;
-        this._addMessageItem(newItem);
-    }
-
-    _addMessage(message, user, colorIndex) {
-        this._addMessageItem(this._createNewItem(message, user, colorIndex));
+    _getTranslation(key) {
+        return i18n[this.locale]?.[key] || i18n['en'][key];
     }
 
     _hideProgressBar() {
@@ -148,13 +151,12 @@ export class TicChatbotStream extends LitElement {
         this._progressBarClass = "show";
     }
 
-    // New method to handle the timeout
     _handleTimeout() {
         this._hideProgressBar();
         this._chatItems = [
             ...this._chatItems,
             {
-                text: 'Przykro mi, ale nie dostałem żadnej odpowiedzi od modelu. Spróbuj ponownie!',
+                text: this._getTranslation('noResponse'),
                 userName: 'A007',
                 userColorIndex: 1
             }
@@ -162,7 +164,6 @@ export class TicChatbotStream extends LitElement {
         this.requestUpdate();
     }
     
-    // New method to clear the timeout
     _clearTimeout() {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
@@ -184,11 +185,10 @@ export class TicChatbotStream extends LitElement {
             this.requestUpdate();
             this._showProgressBar();
             
-            // Start the 60-second timeout
             this._clearTimeout();
             this.timeoutId = setTimeout(() => {
                 this._handleTimeout();
-            }, 60000); // 60 seconds
+            }, 60000);
 
             this.ws.send(message);
         }

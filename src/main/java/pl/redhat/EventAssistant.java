@@ -8,7 +8,7 @@ import pl.redhat.geo.GeoCodingRestService;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 
-@RegisterAiService 
+@RegisterAiService(modelName = "assist")
 @ApplicationScoped
 @SystemMessage("""
         Jesteś inteligentnym asystentem. Użytkownicy będą zadawać Ci pytania dotyczące wydarzeń podając lokalizację, typ lub datę.
@@ -20,7 +20,7 @@ import dev.langchain4j.service.UserMessage;
         Uzupełnij odpowiedź, korzystając z danych uzyskanych z narzędzi.
         W odpowiedzi podaj nazwę miasta, nazwę wydarzenia, opis wydarzenia i datę wydarzenia.
         Jeśli nie możesz uzyskać dostępu do narzędzi, aby odpowiedzieć na pytanie użytkownika,
-        powiedz użytkownikowi, że żądane informacje nie są obecnie dostępne i że może spróbować ponownie później.
+        opowiedź, że żądane informacje nie są obecnie dostępne i że może spróbować ponownie później.
 """)
 public interface EventAssistant {
     
