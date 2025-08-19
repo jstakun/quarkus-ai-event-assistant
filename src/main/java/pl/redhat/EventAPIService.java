@@ -11,14 +11,14 @@ import io.smallrye.mutiny.Multi;
 @Path("/events")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class EventResource {
+public class EventAPIService {
 
     @Inject
     EventRepository eventRepository;
 
     private EventAssistant eventAssistant;
 
-    public EventResource(EventAssistant eventAssistant) {
+    public EventAPIService(EventAssistant eventAssistant) {
         this.eventAssistant = eventAssistant;
     }
 

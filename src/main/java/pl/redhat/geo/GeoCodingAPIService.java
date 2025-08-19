@@ -9,12 +9,12 @@ import org.jboss.resteasy.reactive.RestQuery;
 
 @RegisterRestClient(configKey = "geocoding")
 @Path("/v1")
-public interface GeoCodingRestService {
+public interface GeoCodingAPIService {
 
     @GET
     @Path("/search")
     @ClientQueryParam(name = "count", value = "1")
-    //@Tool("Finds the latitude and longitude of a given city")
-    @Tool("Podaj długość i szerokość geograficzną danego miasta")
+    @Tool("Finds the latitude and longitude of a given city")
+    //@Tool("Podaj długość i szerokość geograficzną danego miasta")
     GeoResults findCity(@RestQuery String name);
 }
